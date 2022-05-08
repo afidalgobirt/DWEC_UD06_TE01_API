@@ -1,5 +1,8 @@
 <?php
     header("Content-Type: application/json");
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: *");
+    header("Access-Control-Allow-Headers: *");
     include("ClientService.php");
 
     switch ($_SERVER['REQUEST_METHOD']) {
@@ -24,28 +27,32 @@
             break;
 
         case 'POST':
-            if (isset($_GET['name']) && isset($_GET['lastName']) &&
-                isset($_GET['address']) && isset($_GET['email'])) {
+            $requestBody = json_decode(file_get_contents('php://input'), true);
+
+            if (isset($requestBody['name']) && isset($requestBody['lastName']) &&
+                isset($requestBody['address']) && isset($requestBody['email'])) {
                 echo ClientService::postClient(
-                    $_GET['name'],
-                    $_GET['lastName'],
-                    $_GET['address'],
-                    $_GET['email'],
-                    (isset($_GET['phone'])) ? $_GET['phone'] : null
+                    $requestBody['name'],
+                    $requestBody['lastName'],
+                    $requestBody['address'],
+                    $requestBody['email'],
+                    (isset($requestBody['phone'])) ? $requestBody['phone'] : null
                 );
             }
 
             break;
 
         case 'PUT':
-            if (isset($_GET['id'])) {
+            $requestBody = json_decode(file_get_contents('php://input'), true);
+
+            if (isset($requestBody['id'])) {
                 echo ClientService::putClient(
-                    $_GET['id'],
-                    (isset($_GET['name'])) ? $_GET['name'] : null,
-                    (isset($_GET['lastName'])) ? $_GET['lastName'] : null,
-                    (isset($_GET['address'])) ? $_GET['address'] : null,
-                    (isset($_GET['email'])) ? $_GET['email'] : null,
-                    (isset($_GET['phone'])) ? $_GET['phone'] : null
+                    $requestBody['id'],
+                    (isset($requestBody['name'])) ? $requestBody['name'] : null,
+                    (isset($requestBody['lastName'])) ? $requestBody['lastName'] : null,
+                    (isset($requestBody['address'])) ? $requestBody['address'] : null,
+                    (isset($requestBody['email'])) ? $requestBody['email'] : null,
+                    (isset($requestBody['phone'])) ? $requestBody['phone'] : null
                 );
             }
 

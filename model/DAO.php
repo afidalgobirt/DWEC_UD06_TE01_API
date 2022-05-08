@@ -7,15 +7,15 @@
         private $db;
         
         public function __construct() {
-            $this->user = "id18871277_dwec_ud06_te01_api_user";
+            /* $this->user = "id18871277_dwec_ud06_te01_api_user";
             $this->host = "localhost";
             $this->pass = "zIxHMZ)1m0ZzXBFq";
-            $this->db = "id18871277_dwec_ud06_te01_api";
+            $this->db = "id18871277_dwec_ud06_te01_api"; */
 
-            /*$this->user = "root";
+            $this->user = "root";
             $this->host = "localhost";
             $this->pass = "";
-            $this->db = "prueba";*/
+            $this->db = "dwec_ud06_te01_api";
 
             $this->connect();
         }

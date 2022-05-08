@@ -1,5 +1,8 @@
 <?php
     header("Content-Type: application/json");
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: *");
+    header("Access-Control-Allow-Headers: *");
     include("SaleOrderService.php");
 
     switch ($_SERVER['REQUEST_METHOD']) {
@@ -24,22 +27,26 @@
             break;
 
         case 'POST':
-            if (isset($_GET['clientId'])) {
+            $requestBody = json_decode(file_get_contents('php://input'), true);
+
+            if (isset($requestBody['clientId'])) {
                 echo SaleOrderService::postSaleOrder(
-                    $_GET['clientId'],
-                    (isset($_GET['expectedDeliveryDate'])) ? $_GET['expectedDeliveryDate'] : null,
-                    (isset($_GET['deliveryDate'])) ? $_GET['deliveryDate'] : null
+                    $requestBody['clientId'],
+                    (isset($requestBody['expectedDeliveryDate'])) ? $requestBody['expectedDeliveryDate'] : null,
+                    (isset($requestBody['deliveryDate'])) ? $requestBody['deliveryDate'] : null
                 );
             }
 
             break;
 
         case 'PUT':
-            if (isset($_GET['id'])) {
+            $requestBody = json_decode(file_get_contents('php://input'), true);
+
+            if (isset($requestBody['id'])) {
                 echo SaleOrderService::putSaleOrder(
-                    $_GET['id'],
-                    (isset($_GET['expectedDeliveryDate'])) ? $_GET['expectedDeliveryDate'] : null,
-                    (isset($_GET['deliveryDate'])) ? $_GET['deliveryDate'] : null
+                    $requestBody['id'],
+                    (isset($requestBody['expectedDeliveryDate'])) ? $requestBody['expectedDeliveryDate'] : null,
+                    (isset($requestBody['deliveryDate'])) ? $requestBody['deliveryDate'] : null
                 );
             }
 

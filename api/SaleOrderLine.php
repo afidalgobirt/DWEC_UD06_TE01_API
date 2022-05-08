@@ -1,5 +1,8 @@
 <?php
     header("Content-Type: application/json");
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: *");
+    header("Access-Control-Allow-Headers: *");
     include("SaleOrderLineService.php");
 
     switch ($_SERVER['REQUEST_METHOD']) {
@@ -30,19 +33,28 @@
             break;
 
         case 'POST':
-            if (isset($_GET['saleOrderId']) && isset($_GET['productId']) && isset($_GET['quantity'])) {
+            $requestBody = json_decode(file_get_contents('php://input'), true);
+
+            if (isset($requestBody['saleOrderId']) &&
+                isset($requestBody['productId']) &&
+                isset($requestBody['quantity'])) {
                 echo SaleOrderLineService::postSaleOrderLine(
-                    $_GET['saleOrderId'],
-                    $_GET['productId'],
-                    $_GET['quantity']
+                    $requestBody['saleOrderId'],
+                    $requestBody['productId'],
+                    $requestBody['quantity']
                 );
             }
 
             break;
 
         case 'PUT':
-            if (isset($_GET['id']) && isset($_GET['quantity'])) {
-                echo SaleOrderLineService::putSaleOrderLine($_GET['id'], $_GET['quantity']);
+            $requestBody = json_decode(file_get_contents('php://input'), true);
+
+            if (isset($requestBody['id']) && isset($requestBody['quantity'])) {
+                echo SaleOrderLineService::putSaleOrderLine(
+                    $requestBody['id'],
+                    $requestBody['quantity']
+                );
             }
 
             break;
